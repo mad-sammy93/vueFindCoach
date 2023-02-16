@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TheHeader from './components/TheHeader.vue'
+import TheHeader from './components/layout/TheHeader.vue'
 
 export default {
     components: {
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -26,7 +26,7 @@ section{
     background-color: #221E22;
 }
 html {
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 body {
