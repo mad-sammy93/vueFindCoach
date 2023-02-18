@@ -6,6 +6,7 @@ export default {
     namespaced: true,
     state() {
         return {
+            // userIsCoach: false, //we use the alternative method using getters
             coaches: [
 
                 {
