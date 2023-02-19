@@ -112,7 +112,7 @@ export default {
                 this.rate.isValid = false;
                 this.formIsValid = false;
             }
-            if(this.areas.val === 0){
+            if(this.areas.val.length === 0){
                 this.areas.isValid = false;
                 this.formIsValid = false;
             }
