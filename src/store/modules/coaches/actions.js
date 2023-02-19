@@ -29,7 +29,11 @@ export default {
         });
 
     },
-    async loadCoaches(context) {
+    async loadCoaches(context , payload) {
+        if(!payload.forcedRefresh && !context.getters.shouldUpdate) {
+            return
+        }
+
         const response = await fetch(
             `https://findacoach-485df-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`
         );
@@ -57,5 +61,6 @@ export default {
         }
 
         context.commit('setCoaches', coaches);
+        context.commit('setFetchTimestamp');
     }
 };
