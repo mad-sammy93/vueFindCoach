@@ -31,13 +31,15 @@ export default {
     },
     async loadCoaches(context) {
         const response = await fetch(
-            `https://findacoach-485df-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.json`
+            `https://findacoach-485df-default-rtdb.asia-southeast1.firebasedatabase.app/coaches.jso`
         );
 
         const responseData = await response.json();
 
         if(!response.ok){
             //error ...
+            const error = new Error(responseData.message || 'Failed to fetch');
+            throw error; 
         }
 
         const coaches =[];
