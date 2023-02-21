@@ -1,20 +1,29 @@
 <template>
-    <base-card>
-        <form @submit.prevent="submitForm">
-            <div class="form-control">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" v-model="email">
-            </div>
-            
-            <div class="form-control">
-                <label for="password">Password</label>
-                <input type="password" id="password" v-model="password">
-            </div>
-            <p v-if="!formIsValid">Please enter a valid email and password, must be atleast 6 characters long</p>
-            <base-button>{{ submitButtonCption }}</base-button>
-            <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</base-button>
-        </form>
-    </base-card>
+    <div>
+        <base-dialog :show="!!error" title="An error occured" @close="handleError">
+            <p>{{ error }}</p>
+        </base-dialog>
+        <base-dialog :show="isLoading" title="Authenticating ..." fixed>
+            <!-- <p>Authenticating ...</p> -->
+            <base-spinner></base-spinner>
+        </base-dialog>
+        <base-card>
+            <form @submit.prevent="submitForm">
+                <div class="form-control">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" v-model="email">
+                </div>
+                
+                <div class="form-control">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" v-model="password">
+                </div>
+                <p v-if="!formIsValid">Please enter a valid email and password, must be atleast 6 characters long</p>
+                <base-button>{{ submitButtonCption }}</base-button>
+                <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</base-button>
+            </form>
+        </base-card>
+    </div>
 </template>
 
 <script>
@@ -24,7 +33,9 @@ export default{
             email: '',
             password: '',
             formIsValid:true,
-            mode: 'login'
+            mode: 'login',
+            isLoading: false,
+            error: null
         };
     },
     computed: {
@@ -44,21 +55,30 @@ export default{
         }
     },
     methods: {
-        submitForm() {
+        async submitForm() {
             this.formIsValid = true
             if(this.email === '' || !this.email.includes('@') || this.password.length < 6){
                 this.formIsValid = false
             }
             //http request
             
-            if(this.mode === 'login'){
+            this.isLoading = true;
+
+            try{
+                if(this.mode === 'login'){
                 //...
-            } else {
-                this.$store.dispatch('signup', {
-                    email: this.email,
-                    password: this.password,
-                });
+                } else {
+                    await this.$store.dispatch('signup', {
+                        email: this.email,
+                        password: this.password,
+                    });
+                }
+            } catch(err) {
+                this.error = err.message || 'Failed to authenticate. Check login data';
             }
+            
+
+            this.isLoading = false;
         },
         switchAuthMode() {
             if(this.mode === 'login'){
@@ -66,6 +86,9 @@ export default{
             }else{
                 this.mode = 'login';
             }
+        },
+        handleError() {
+            this.error = null
         }
     }
 }
