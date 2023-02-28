@@ -20,3 +20,9 @@
 ## Firebase URL
 
 > https://findacoach-485df-default-rtdb.asia-southeast1.firebasedatabase.app/
+
+## Hosted firebase URL
+
+> https://findacoach-485df.web.app/
+
+> https://findacoach-485df.firebaseapp.com/
