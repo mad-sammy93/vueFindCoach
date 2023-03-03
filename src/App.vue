@@ -14,7 +14,7 @@ export default {
     components: {
         TheHeader
     },
-    ceated(){
+    created(){
       this.$store.dispatch('tryLogin')
     }
 }
